@@ -1,7 +1,12 @@
+import 'package:epharm/screens/login.dart';
+import 'package:epharm/utils/bill.dart';
+import 'package:epharm/utils/patient.dart';
+import 'package:epharm/utils/pres.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:io';
+import 'package:epharm/api/api.dart';
 
 void main() {
   runApp(MyApp());
@@ -13,45 +18,22 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String _baseUrl = "http://192.168.43.19:5000";
+  List pres=[];
+  var bill, user, max;
+  api ap=api();
+  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: Center(
-          child: Container(
-              child: RaisedButton(
-            onPressed: () {
-              get();
-            },
-            child: Text("Submit"),
-          )),
+          child: Login(),
+         
         ),
       ),
     );
   }
 
-  Future<dynamic> get() async {
-    // print('Api Get, url $url');
-    var responseJson;
-
-    final response = await http.post(_baseUrl + '/aaa',
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8'
-        },
-        body: jsonEncode(<String, String>{'usr': "aaa"}));
-    print(response.statusCode);
-    if (response.statusCode == 200) {
-      responseJson = json.decode(response.body.toString());
-      print('api get recieved!');
-      print(responseJson);
-    } else if (response.statusCode == 500) {
-      responseJson = json.decode(response.body.toString());
-      print('api get recieved!');
-      print(responseJson);
-    }
-
-    // print('api get recieved!');
-    // print(responseJson);
-  }
+  
 }
